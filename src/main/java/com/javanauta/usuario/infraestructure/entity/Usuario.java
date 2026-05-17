@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -19,15 +20,19 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (name = "nome", length = 100)
+    @Column(name = "nome", length = 100)
     private String nome;
-    @Column (name = "email" , length = 100)
+    @Column(name = "email", length = 100)
     private String email;
-    @Column (name = "senha")
+    @Column(name = "senha")
     private String senha;
-    @OneToMany (cascade = CascadeType.ALL)
-    @JoinColumn (name = "usuario_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    List<Enderecos> enderecos;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     List<Telefone> telefones;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
