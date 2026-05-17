@@ -2,7 +2,7 @@ package com.javanauta.usuario.infraestructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
+
 @Builder
 @Getter
 @Setter
