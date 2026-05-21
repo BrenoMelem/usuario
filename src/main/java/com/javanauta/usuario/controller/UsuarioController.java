@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,6 +39,10 @@ public class UsuarioController {
     public ResponseEntity<Void> deletaUsuarioPorEmail (@PathVariable String email){
         usuarioService.deletaUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping
+    public ResponseEntity<UsuarioDto> atualizaDadosUsuario (@RequestBody UsuarioDto dto, @RequestHeader ("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.atualizaDadosDeUsuario(token,dto));
     }
 
 }

@@ -83,6 +83,18 @@ public class UsuarioConverter {
                 .numero(telefoneDto.getNumero())
                 .ddd(telefoneDto.getDdd())
                 .build();
+    } // COMPARÇÕES DA ENTITY E DA DTO
+    //Uutilizar o perador ternario dentro do build
+    public Usuario updateUsuario (UsuarioDto usuarioDto, Usuario entity){
+        return Usuario.builder()
+                .id(entity.getId())
+                //usuario passou uma senha nova, senão pega uma senha que tá na entity
+                .nome(usuarioDto.getNome() != null? usuarioDto.getNome() : entity.getNome())
+                .email(usuarioDto.getEmail() !=null ? usuarioDto.getEmail() : entity.getEmail())
+                .senha(usuarioDto.getSenha() !=null ? usuarioDto.getSenha() : entity.getSenha())
+                .enderecos(entity.getEnderecos())
+                .telefones(entity.getTelefones())
+                .build();
     }
 
 }
