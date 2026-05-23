@@ -65,25 +65,57 @@ public class UsuarioConverter {
     public List<EnderecoDto> paraListaEnderecoDto(List<Enderecos> enderecoDtos){
         return enderecoDtos.stream().map(this::paraEnderecoDto).toList();
     }
-    public EnderecoDto paraEnderecoDto(Enderecos enderecoDto){
+    public EnderecoDto paraEnderecoDto(Enderecos endereco){
         return EnderecoDto.builder()
-                .cep(enderecoDto.getCep())
-                .rua(enderecoDto.getRua())
-                .cidade(enderecoDto.getCidade())
-                .estado(enderecoDto.getEstado())
-                .complemento(enderecoDto.getComplemento())
-                .numero(enderecoDto.getNumero())
+                .id(endereco.getId())
+                .cep(endereco.getCep())
+                .rua(endereco.getRua())
+                .cidade(endereco.getCidade())
+                .estado(endereco.getEstado())
+                .complemento(endereco.getComplemento())
+                .numero(endereco.getNumero())
                 .build();
     }
     public List<TelefoneDto> paraListaTelefoneDto(List<Telefone> telefoneDtos){
         return telefoneDtos.stream().map(this::paraTelefoneDto).toList();
     }
-    public  TelefoneDto paraTelefoneDto(Telefone telefoneDto){
+    public  TelefoneDto paraTelefoneDto(Telefone telefone){
         return TelefoneDto.builder()
-                .numero(telefoneDto.getNumero())
-                .ddd(telefoneDto.getDdd())
+                .id(telefone.getId())
+                .numero(telefone.getNumero())
+                .ddd(telefone.getDdd())
+                .build();
+    } // COMPARAÇÕES DA ENTITY E DA DTO
+    //Utilizar o Operador ternario dentro do build
+    public Usuario updateUsuario (UsuarioDto usuarioDto, Usuario entity){
+        return Usuario.builder()
+                .id(entity.getId())
+                //usuario passou uma senha nova, senão pega uma senha que tá na entity
+                .nome(usuarioDto.getNome() != null? usuarioDto.getNome() : entity.getNome())
+                .email(usuarioDto.getEmail() !=null ? usuarioDto.getEmail() : entity.getEmail())
+                .senha(usuarioDto.getSenha() !=null ? usuarioDto.getSenha() : entity.getSenha())
+                .enderecos(entity.getEnderecos())
+                .telefones(entity.getTelefones())
                 .build();
     }
-
+    // CRIANDO CONVERTER PARA O ENDERECO ENTITY
+    public Enderecos updateEndereco (EnderecoDto dto, Enderecos entity){
+        return Enderecos.builder()
+                .id(entity.getId())
+                .rua(dto.getRua() !=null ? dto.getRua() : entity.getRua())
+                .numero(dto.getNumero() != null ? dto.getNumero() : entity.getNumero())
+                .complemento(dto.getComplemento() !=null ? dto.getComplemento() : entity.getComplemento())
+                .cidade(dto.getCidade() != null ? dto.getCidade() : entity.getCidade())
+                .estado(dto.getEstado()!= null ? dto.getEstado() : entity.getEstado())
+                .cep(dto.getCep() != null ? dto.getCep() : entity.getCep())
+                .build();
+    }
+    public  Telefone updateTelefone (TelefoneDto dto, Telefone entity){
+        return Telefone.builder()
+                .id(entity.getId())
+                .numero(dto.getNumero() != null ? dto.getNumero() : entity.getNumero())
+                .ddd(dto.getDdd() != null ? dto.getDdd() : entity.getDdd())
+                .build();
+    }
 }
 
