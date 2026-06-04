@@ -37,7 +37,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> buscaUsuarioPorEmail (@RequestParam ("email") String email){
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
-    @DeleteMapping
+    @DeleteMapping("/{email")
     public ResponseEntity<Void> deletaUsuarioPorEmail (@PathVariable String email){
         usuarioService.deletaUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
