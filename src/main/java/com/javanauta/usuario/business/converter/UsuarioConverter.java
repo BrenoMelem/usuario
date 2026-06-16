@@ -6,7 +6,6 @@ import com.javanauta.usuario.business.dtos.UsuarioDto;
 import com.javanauta.usuario.infraestructure.entity.Enderecos;
 import com.javanauta.usuario.infraestructure.entity.Telefone;
 import com.javanauta.usuario.infraestructure.entity.Usuario;
-import org.hibernate.sql.results.spi.ListResultsConsumer;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,8 +20,8 @@ public class UsuarioConverter {
                 .nome(usuarioDto.getNome())
                 .email(usuarioDto.getEmail())
                 .senha(usuarioDto.getSenha())
-                .enderecos(paraListaEndereco(usuarioDto.getEnderecos()))
-                .telefones(paraListaTelefone(usuarioDto.getTelefones()))
+                .enderecos(usuarioDto.getEnderecos() != null ? paraListaEndereco(usuarioDto.getEnderecos()) : null)
+                .telefones(usuarioDto.getTelefones() != null ? paraListaTelefone(usuarioDto.getTelefones()): null)
                 .build();
 
     }
@@ -57,8 +56,8 @@ public class UsuarioConverter {
                 .nome(usuarioDto.getNome())
                 .email(usuarioDto.getEmail())
                 .senha(usuarioDto.getSenha())
-                .enderecos(paraListaEnderecoDto(usuarioDto.getEnderecos()))
-                .telefones(paraListaTelefoneDto(usuarioDto.getTelefones()))
+                .enderecos(usuarioDto.getEnderecos() !=null ? paraListaEnderecoDto(usuarioDto.getEnderecos()): null)
+                .telefones(usuarioDto.getTelefones() != null ? paraListaTelefoneDto(usuarioDto.getTelefones()) : null)
                 .build();
 
     }

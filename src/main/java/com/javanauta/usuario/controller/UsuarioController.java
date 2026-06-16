@@ -4,14 +4,12 @@ import com.javanauta.usuario.business.UsuarioService;
 import com.javanauta.usuario.business.dtos.EnderecoDto;
 import com.javanauta.usuario.business.dtos.TelefoneDto;
 import com.javanauta.usuario.business.dtos.UsuarioDto;
-import com.javanauta.usuario.infraestructure.entity.Usuario;
 import com.javanauta.usuario.infraestructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
