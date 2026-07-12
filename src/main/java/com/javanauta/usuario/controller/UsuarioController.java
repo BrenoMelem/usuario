@@ -6,7 +6,6 @@ import com.javanauta.usuario.business.dtos.EnderecoDto;
 import com.javanauta.usuario.business.dtos.TelefoneDto;
 import com.javanauta.usuario.business.dtos.UsuarioDto;
 import com.javanauta.usuario.infraestructure.clients.dtos.ViaCepDto;
-import com.javanauta.usuario.infraestructure.security.JwtUtil;
 import com.javanauta.usuario.infraestructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,9 +13,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = SecurityConfig.SECURITY_SCHEME)
 public class UsuarioController {
     private final UsuarioService usuarioService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
     private final ViaCepService viaCepService;
 
     @PostMapping
@@ -42,11 +36,8 @@ public class UsuarioController {
     @Operation(summary = "Cadastra Usuários", description = "Cria um novo Usuário")
     @ApiResponse(responseCode = "200", description = "Usuário cadastrado com sucesso")
     @ApiResponse(responseCode = "500", description = " Erro interno do servidor")
-    public String login(@RequestBody UsuarioDto usuarioDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDto.getEmail(), usuarioDto.getSenha())
-        );
-        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDto usuarioDto) {
+        return ResponseEntity.ok(usuarioService.autenticarUsuario(usuarioDto));
     }
 
     @GetMapping
@@ -106,8 +97,9 @@ public class UsuarioController {
     public ResponseEntity<TelefoneDto> cadastraTelefone(@RequestBody TelefoneDto dto, @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(usuarioService.cadastraTelefone(token, dto));
     }
+
     @GetMapping("/endereco/{cep}")
-    public ResponseEntity<ViaCepDto> buscaDadosEndereco (@PathVariable("cep") String cep){
+    public ResponseEntity<ViaCepDto> buscaDadosEndereco(@PathVariable("cep") String cep) {
         return ResponseEntity.ok(viaCepService.buscarDadosEndereco(cep));
     }
 
